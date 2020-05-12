@@ -1,0 +1,13 @@
+{
+    "name": "Homepage Extensions",
+    "description" : "override your homepage",
+    "version": "1.0",
+    "manifest_version": 2,
+    "chrome_url_overrides" : {
+        "newtab": "home.html"
+    },
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    }
+  }
