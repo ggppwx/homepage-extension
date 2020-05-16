@@ -79,22 +79,37 @@ const setTodo = () => {
     .catch(error => console.log(error));
 };
 
+const secondsToTimeStr = (seconds) => {
+    let date = new Date(0);
+    date.setSeconds(seconds); // specify value for SECONDS here
+    let timeString = date.toISOString().substr(11, 8);    
+    return timeString;
+};
+
 const setTimerInput = () => {
     let timerInput = document.getElementById("timerInput");
     timerInput.addEventListener("keyup", (event) => {
         if (event.keyCode === 13) {
             event.preventDefault();
             console.log(timerInput.value)
+
             
             // show timer 
-            
-            // kick the timer 
+            document.getElementById("clock").classList.add("hide");
+            document.getElementById("timer").classList.remove("hide");
+
+            // clear existing timer 
 
 
+            // kick the timer             
             let count = 10;
+            document.getElementById("timer").innerHTML = secondsToTimeStr(count);
             var handle = setInterval(() => {
                 count --;
                 console.log(count);
+
+                document.getElementById("timer").innerHTML = secondsToTimeStr(count);
+                
                 if (count == 0) {
                     alert('ah oh');
                     clearInterval(handle);
