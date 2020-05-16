@@ -1,3 +1,5 @@
+var intervalHandle;
+
 const getTasks = async () => {
     const headers = {
         'Content-Type': 'application/json',
@@ -86,33 +88,89 @@ const secondsToTimeStr = (seconds) => {
     return timeString;
 };
 
+
+
+const parseTime = (timeStr) => {
+    // 3h2m -> 3 hour 2 m  
+    // read the numnber, then read the 
+    let totalSeconds = 0;
+    let matched = timeStr.match(/\d+\s*[a-z]+/g);    
+    matched.forEach(item => {
+        matchedItem = item.match(/(\d+)\s*([a-z]+)/);
+        console.log(matchedItem);
+        let num = parseInt(matchedItem[1]);
+        let ind = matchedItem[2];
+        if (ind == "h") {
+            totalSeconds += num * 3600;
+        }
+        else if (ind == "m") {
+            totalSeconds += num * 60
+        }
+    });
+    console.log(totalSeconds);
+    return totalSeconds;
+    
+};
+
+const showTimer = () => {
+    document.getElementById("clock").classList.add("hide");
+    document.getElementById("timer").classList.remove("hide");
+};
+
+const hideTimer = () => {
+    document.getElementById("clock").classList.remove("hide");
+    document.getElementById("timer").classList.add("hide");
+};
+
+const showNotification = () => {
+    chrome.runtime.sendMessage("", {
+        type: "notification",
+        opt: {
+            type: "basic",
+            title: "Time is up",
+            message: "Ah oh, time is up",
+            iconUrl: "/notification.jpg",
+            priority: 2,
+            requireInteraction: true
+        }        
+    });
+};
+
 const setTimerInput = () => {
     let timerInput = document.getElementById("timerInput");
     timerInput.addEventListener("keyup", (event) => {
         if (event.keyCode === 13) {
             event.preventDefault();
             console.log(timerInput.value)
-
+            let count = parseTime(timerInput.value);
             
             // show timer 
-            document.getElementById("clock").classList.add("hide");
-            document.getElementById("timer").classList.remove("hide");
+            showTimer();
 
-            // clear existing timer 
+            // clear existing timer
+            if (intervalHandle !== null) {
+                clearInterval(intervalHandle);
+            }
 
+            // clear the text 
+            timerInput.value = "";
+            // kick the timer          
 
-            // kick the timer             
-            let count = 10;
             document.getElementById("timer").innerHTML = secondsToTimeStr(count);
-            var handle = setInterval(() => {
+            intervalHandle = setInterval(() => {
                 count --;
                 console.log(count);
 
                 document.getElementById("timer").innerHTML = secondsToTimeStr(count);
                 
                 if (count == 0) {
-                    alert('ah oh');
-                    clearInterval(handle);
+                    //alert('ah oh');
+                    // back to clock 
+                    hideTimer();
+
+                    clearInterval(intervalHandle);
+                    
+                    showNotification();
                 }
             }, 1000);
 

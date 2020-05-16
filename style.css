@@ -65,6 +65,14 @@
     font-weight: bolder;
 }
 
+.timer-input {
+    border: 0;
+    border-bottom: 2px solid #fff;
+    background: 0;
+    outline: none;
+    font-weight: 300;
+    color: white;
+}
 
 .hide {
     display: none

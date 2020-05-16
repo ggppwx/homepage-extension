@@ -4,8 +4,21 @@
 
 'use strict';
 
+const showNotification = (data) => {
+  chrome.notifications.create("alarm", data.opt, function(notificationId) {});
+};
+
+
 chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.set({color: '#3aa757'}, function() {
     console.log("The color is green.");
   });
+});
+
+
+chrome.runtime.onMessage.addListener(data => {  
+    console.log('ah oh')
+    if (data.type == "notification") {
+        showNotification(data);
+    }
 });

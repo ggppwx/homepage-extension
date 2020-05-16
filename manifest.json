@@ -3,6 +3,10 @@
     "description" : "override your homepage",
     "version": "1.0",
     "manifest_version": 2,
+    "permissions": [
+        "storage",
+        "notifications"
+    ],
     "chrome_url_overrides" : {
         "newtab": "home.html"
     },
