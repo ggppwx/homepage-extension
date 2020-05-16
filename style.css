@@ -1,5 +1,5 @@
 .background {
-    background-image: url("./background.jpg");
+    background-image: url("./images/1.jpg");
     height: 100%;    
     background-position: center;
     background-repeat: no-repeat;
@@ -10,17 +10,84 @@
 }
 
 .center {
-    position: absolute;
-    top: 40%;
+    position: relative;
+    top: 25%;
     width: 100%;
     display: block;
-    text-align: center;
+    /*border: 3px solid #73AD21;*/
+}
+.center-bottom {
+    position: relative;
+    display: block;
+    top: 32%;
+    /*border: 3px solid #73AD21;*/
+}
+
+.bottom {
+    position: absolute;
+    display: block;
+    width: 100%;
+    bottom: 2%;
+    /*border: 3px solid #73AD21;*/
+}
+
+.row {
+    display: table;
+    clear: both;
+    width: 100%;
+}
+
+.side-col {
+    float: left;
+    width: 20%;
+}
+
+.center-col {
+    float: left;
+    width: 60%;
 }
 
 .clock-text {
-    font-size: 1050%;
+    font-size: 2000%;
     color: white;
+    text-align: center;
     font-family: monospace;
+    font-weight: bolder;
+}
+
+.greets-text {
+    font-size: 300%;
+    color: white;
+    font-family: monospace;    
+    text-align: center;
+    font-weight: bold;
+}
+
+.todo-header-text {
+    font-size: 200%;
+    color: white;
+    font-family: monospace;    
+    text-align: center;
+    font-weight: bold;
+}
+
+.todo-text {
+    font-size: 400%;
+    color: white;
+    font-family: monospace;    
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+
+.quote-text {
+    font-size: 180%;
+    color: white;
+    font-family: monospace;    
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 
