@@ -5,7 +5,8 @@
     "manifest_version": 2,
     "permissions": [
         "storage",
-        "notifications"
+        "notifications",
+        "tabs"
     ],
     "chrome_url_overrides" : {
         "newtab": "home.html"
@@ -13,5 +14,10 @@
     "background": {
         "scripts": ["background.js"],
         "persistent": false
-    }
+    },
+    "web_accessible_resources" : [
+        "images/*.jpg",
+        "alarm.jpg"
+    ]
+
   }

@@ -112,27 +112,35 @@ const parseTime = (timeStr) => {
     
 };
 
-const showTimer = () => {
+const showTimerView = () => {
     document.getElementById("clock").classList.add("hide");
     document.getElementById("timer").classList.remove("hide");
+    document.getElementById("greets").classList.add("invisible");
 };
 
-const hideTimer = () => {
+const showClockView = () => {
     document.getElementById("clock").classList.remove("hide");
     document.getElementById("timer").classList.add("hide");
+    document.getElementById("greets").classList.remove("invisible");
 };
 
+
+
+
 const showNotification = () => {
-    chrome.runtime.sendMessage("", {
-        type: "notification",
-        opt: {
-            type: "basic",
-            title: "Time is up",
-            message: "Ah oh, time is up",
-            iconUrl: "/notification.jpg",
-            priority: 2,
-            requireInteraction: true
-        }        
+    chrome.tabs.getCurrent((tab) => {
+        chrome.runtime.sendMessage("", {
+            type: "notification",
+            tabId: tab.id,
+            opt: {
+                type: "basic",
+                title: "Time is up",
+                message: "Ah oh, time is up",
+                iconUrl: "/notification.jpg",
+                priority: 2,
+                requireInteraction: true
+            }        
+        });
     });
 };
 
@@ -145,7 +153,7 @@ const setTimerInput = () => {
             let count = parseTime(timerInput.value);
             
             // show timer 
-            showTimer();
+            showTimerView();
 
             // clear existing timer
             if (intervalHandle !== null) {
@@ -166,7 +174,7 @@ const setTimerInput = () => {
                 if (count == 0) {
                     //alert('ah oh');
                     // back to clock 
-                    hideTimer();
+                    showClockView();
 
                     clearInterval(intervalHandle);
                     
@@ -180,12 +188,16 @@ const setTimerInput = () => {
     });
 };
 
+const focusText = () => {
+    document.getElementById("timerInput").focus();
+};
 
 document.addEventListener("DOMContentLoaded", function() {    
     setBackground();
     setQuote();
     setTodo();
     setTimerInput();
+    focusText();
 
 
     // display time 
