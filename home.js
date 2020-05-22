@@ -5,7 +5,7 @@ const getTasks = async () => {
         'Content-Type': 'application/json',
         "Authorization": "Bearer 543ec6d91418d05024df4b2e96cff29433b81057"
     };
-    const url = "https://api.todoist.com/rest/v1/tasks?filter=due%20before:Tomorrow"
+    const url = "https://cors-anywhere.herokuapp.com/api.todoist.com/rest/v1/tasks?filter=due%20before:Tomorrow"
     const response = await fetch(url, {
         method: 'GET',
         headers: headers
@@ -28,7 +28,9 @@ const getQuote = async () => {
 
 
 const setBackground = () => {
-    let random = Math.floor(Math.random()*6) + 1; // 1- 7
+    var now = new Date();
+    // let random = Math.floor(Math.random()*6) + 1; // 1- 7
+    let random = now.getDate() % 7 + 1;
     let file = `url(./images/${random}.jpg)`;
     document.getElementsByClassName("background")[0].style.backgroundImage = file;
 };
@@ -74,7 +76,9 @@ const setTodo = () => {
         console.log(sortedTasks);
         focusTask = sortedTasks.find(x => true);
         if (focusTask) {
-            document.getElementById("todo").innerHTML = focusTask.content;
+            let todo = document.getElementById("todo")
+            todo.innerHTML = "<u>" + focusTask.content + "</u>";
+            todo.dataset.taskid = focusTask.id;
         }
 
     })
@@ -188,6 +192,13 @@ const setTimerInput = () => {
     });
 };
 
+const setTodoClick = () => {
+    let todo = document.getElementById("todo");
+    todo.addEventListener("click", (event) => {        
+        console.log(todo.dataset);
+    });
+}
+
 const focusText = () => {
     document.getElementById("timerInput").focus();
 };
@@ -196,6 +207,7 @@ document.addEventListener("DOMContentLoaded", function() {
     setBackground();
     setQuote();
     setTodo();
+    setTodoClick();
     setTimerInput();
     focusText();
 

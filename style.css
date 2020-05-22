@@ -66,8 +66,8 @@
 }
 
 .timer-input {
-    border: 0;
-    border-bottom: 2px solid #fff;
+    margin-top: 10px;
+    border: 2px solid #fff;
     background: 0;
     outline: none;
     font-weight: 300;
@@ -114,6 +114,9 @@
     margin-top: 10px;
 }
 
+.todo-item {
+    cursor: pointer;
+}
 
 .quote-text {
     font-size: 180%;
