@@ -33,20 +33,20 @@
 }
 
 .row {
-    display: table;
-    clear: both;
     width: 100%;
     height: 50%;
 }
 
-.side-col {
+.side-col {    
     float: left;
     width: 20%;
+    height: 100%;
 }
 
-.center-col {
-    float: left;
+.center-col {  
+    float: left;  
     width: 60%;
+    height: 100%;
 }
 
 .clock-text {
@@ -58,11 +58,12 @@
 }
 
 .timer-text {
-    font-size: 1500%;
+    font-size: 1400%;
     color: white;
     text-align: center;
     font-family: monospace;
     font-weight: bolder;
+    border: 2px solid #fff;
 }
 
 .timer-input {

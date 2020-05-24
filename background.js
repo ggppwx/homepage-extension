@@ -5,7 +5,7 @@
 'use strict';
 
 const showNotification = (data) => {
-  chrome.notifications.create("alarm", data.opt, function(notificationId) {});
+  chrome.notifications.create("alarm", data.opt);
 };
 
 const switchToTab = (data) => {
@@ -14,7 +14,8 @@ const switchToTab = (data) => {
 
 chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.set({color: '#3aa757'}, function() {
-    console.log("The color is green.");
+    //console.log("The color is green.");
+    //chrome.notifications.create("a", {type: 'basic', title: 'hhhh', message: 'hhh', iconUrl: '/notification.jpg'});
   });
 });
 

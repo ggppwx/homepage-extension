@@ -150,13 +150,21 @@ const showNotification = () => {
                 type: "basic",
                 title: "Time is up",
                 message: "Ah oh, time is up",
-                iconUrl: "/notification.jpg",
-                priority: 2,
-                requireInteraction: true
+                iconUrl: "/notification.jpg"                
             }        
         });
     });
 };
+
+const setTimerText = (seconds) => {
+    let text =  secondsToTimeStr(seconds);
+    document.getElementById("timer").innerHTML = text;
+    document.getElementById("title").innerHTML = text;
+};
+
+const clearTimerText = () => {
+    document.getElementById("title").innerHTML = "Home";
+}
 
 const setTimerInput = () => {
     let timerInput = document.getElementById("timerInput");
@@ -177,13 +185,13 @@ const setTimerInput = () => {
             // clear the text 
             timerInput.value = "";
             // kick the timer          
-
-            document.getElementById("timer").innerHTML = secondsToTimeStr(count);
+            
+            setTimerText(count);
             intervalHandle = setInterval(() => {
                 count --;
                 console.log(count);
-
-                document.getElementById("timer").innerHTML = secondsToTimeStr(count);
+                
+                setTimerText(count);
                 
                 if (count == 0) {
                     //alert('ah oh');
@@ -193,6 +201,8 @@ const setTimerInput = () => {
                     clearInterval(intervalHandle);
                     
                     showNotification();
+
+                    clearTimerText();
                 }
             }, 1000);
 
