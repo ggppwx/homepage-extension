@@ -148,6 +148,16 @@ const showNotification = () => {
     });
 };
 
+const setTimerText = (seconds) => {
+    let text =  secondsToTimeStr(seconds);
+    document.getElementById("timer").innerHTML = text;
+    document.getElementById("title").innerHTML = text;
+};
+
+const clearTimerText = () => {
+    document.getElementById("title").innerHTML = "Home";
+}
+
 const setTimerInput = () => {
     let timerInput = document.getElementById("timerInput");
     timerInput.addEventListener("keyup", (event) => {
@@ -167,13 +177,13 @@ const setTimerInput = () => {
             // clear the text 
             timerInput.value = "";
             // kick the timer          
-
-            document.getElementById("timer").innerHTML = secondsToTimeStr(count);
+            
+            setTimerText(count);
             intervalHandle = setInterval(() => {
                 count --;
                 console.log(count);
-
-                document.getElementById("timer").innerHTML = secondsToTimeStr(count);
+                
+                setTimerText(count);
                 
                 if (count == 0) {
                     //alert('ah oh');
