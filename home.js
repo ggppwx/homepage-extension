@@ -140,9 +140,7 @@ const showNotification = () => {
                 type: "basic",
                 title: "Time is up",
                 message: "Ah oh, time is up",
-                iconUrl: "/notification.jpg",
-                priority: 2,
-                requireInteraction: true
+                iconUrl: "/notification.jpg"                
             }        
         });
     });
@@ -193,6 +191,8 @@ const setTimerInput = () => {
                     clearInterval(intervalHandle);
                     
                     showNotification();
+
+                    clearTimerText();
                 }
             }, 1000);
 
