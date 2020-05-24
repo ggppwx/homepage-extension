@@ -1,16 +1,26 @@
 var intervalHandle;
 
+const headers = {
+    'Content-Type': 'application/json',
+    "Authorization": "Bearer 543ec6d91418d05024df4b2e96cff29433b81057"
+};
+
 const getTasks = async () => {
-    const headers = {
-        'Content-Type': 'application/json',
-        "Authorization": "Bearer 543ec6d91418d05024df4b2e96cff29433b81057"
-    };
     const url = "https://cors-anywhere.herokuapp.com/api.todoist.com/rest/v1/tasks?filter=due%20before:Tomorrow"
     const response = await fetch(url, {
         method: 'GET',
         headers: headers
     })
     return response.json();
+};
+
+const completeTask = async (taskid) => {    
+    const url = `https://cors-anywhere.herokuapp.com/api.todoist.com/rest/v1/tasks/${taskid}/close`;
+    let response = await fetch(url, {
+        method: 'POST',
+        headers: headers
+    })
+    return response;
 };
 
 
@@ -196,6 +206,11 @@ const setTodoClick = () => {
     let todo = document.getElementById("todo");
     todo.addEventListener("click", (event) => {        
         console.log(todo.dataset);
+        completeTask(todo.dataset.taskid).then(data => {
+            // refresh
+            setTodo();
+        });
+
     });
 }
 
