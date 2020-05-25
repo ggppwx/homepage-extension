@@ -61,6 +61,7 @@ const setTime = () => {
 
 
 const setQuote = () => {
+    console.log("get quotes ...");
     getQuote()
     .then(data => {
         console.log(data);
@@ -79,6 +80,7 @@ const sortTasksByPriroty = (tasks) => {
 }
 
 const setTodo = () => {
+    console.log("get tasks ... ");
     getTasks()
     .then(tasks => {        
         // find the max priority 
@@ -89,6 +91,18 @@ const setTodo = () => {
             let todo = document.getElementById("todo")
             todo.innerHTML = "<u>" + focusTask.content + "</u>";
             todo.dataset.taskid = focusTask.id;
+
+            let otherTasks = sortedTasks.slice(1, 6);
+
+            let todos = document.getElementById("todos");
+            todos.innerHTML = "";
+            otherTasks.forEach(task => {
+                let listitem = document.createElement('li');
+                listitem.innerHTML = task.content;
+                todos.appendChild(listitem);
+            });
+            
+            
         }
 
     })

@@ -8,10 +8,13 @@
 
 .container {
 }
+.top {
+    position: relative;
+    height: 25%;
+}
 
 .center {
     position: relative;
-    top: 25%;
     width: 100%;
     display: block;
     height: 45%;
@@ -20,7 +23,6 @@
 .center-bottom {
     position: relative;
     display: block;
-    top: 25%;
     /*border: 3px solid #73AD21;*/
 }
 
@@ -126,6 +128,24 @@
     text-align: center;
     padding-left: 20px;
     padding-right: 20px;
+}
+
+.todo-board {
+    padding: 10px;
+    height: 100%;
+    text-align: right;
+    color: white;
+}
+
+.todo-board-items {
+    list-style: none;
+    font-size: 120%;
+    margin-top: 5px;
+}
+
+.todo-board-header {
+    font-size: 200%;
+    text-align: right;
 }
 
 .marginauto {
