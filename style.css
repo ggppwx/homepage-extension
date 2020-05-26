@@ -145,12 +145,19 @@
 
 .todo-board-header {
     font-size: 200%;
-    text-align: right;
 }
 
 .marginauto {
     margin: auto;
     display: block;
+}
+
+.text-on-right {
+    text-align: right;
+}
+
+.text-on-left {
+    text-align: left;
 }
 
 body, html  {
