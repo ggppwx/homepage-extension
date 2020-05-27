@@ -140,21 +140,6 @@ const parseTime = (timeStr) => {
     
 };
 
-const showTimerView = () => {
-    document.getElementById("clock").classList.add("hide");
-    document.getElementById("timer").classList.remove("hide");
-    document.getElementById("greets").classList.add("invisible");
-};
-
-const showClockView = () => {
-    document.getElementById("clock").classList.remove("hide");
-    document.getElementById("timer").classList.add("hide");
-    document.getElementById("greets").classList.remove("invisible");
-};
-
-
-
-
 const showNotification = () => {
     chrome.tabs.getCurrent((tab) => {
         chrome.runtime.sendMessage("", {
@@ -226,6 +211,18 @@ const setTimerInput = () => {
     });
 };
 
+const showTimerView = () => {
+    document.getElementById("clock").classList.add("hide");
+    document.getElementById("timer").classList.remove("hide");
+    document.getElementById("greets").classList.add("invisible");
+};
+
+const showClockView = () => {
+    document.getElementById("clock").classList.remove("hide");
+    document.getElementById("timer").classList.add("hide");
+    document.getElementById("greets").classList.remove("invisible");
+};
+
 const setTodoClick = () => {
     let todo = document.getElementById("todo");
     todo.addEventListener("click", (event) => {        
@@ -238,6 +235,24 @@ const setTodoClick = () => {
     });
 }
 
+
+const setDaysCountdown = () => {
+    let today = new Date();
+    let weekCountdownPercent = today.getDay() / 7 * 100;
+    let monthCountdownPercent = today.getDate() / 31 * 100;
+    var start = new Date(today.getFullYear(), 0, 0);
+    var diff = today - start;
+    var oneDay = 1000 * 60 * 60 * 24;
+    var day = Math.floor(diff / oneDay);
+    let yearCountdownPercent = day / 365 * 100;
+    document.getElementById("weekCountdown").value = weekCountdownPercent;
+    document.getElementById("monthCountdown").value = monthCountdownPercent;
+    document.getElementById("yearCountdown").value = yearCountdownPercent;
+    document.getElementById("calendar").innerHTML = today.toLocaleDateString();
+
+}
+
+
 const focusText = () => {
     document.getElementById("timerInput").focus();
 };
@@ -249,6 +264,7 @@ document.addEventListener("DOMContentLoaded", function() {
     setTodoClick();
     setTimerInput();
     focusText();
+    setDaysCountdown();
 
 
     // display time 
