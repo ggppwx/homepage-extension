@@ -167,6 +167,7 @@ const clearTimerText = () => {
 
 const setTimerInput = () => {
     let timerInput = document.getElementById("timerInput");
+    let audio = document.getElementById("timerAudio");
     timerInput.addEventListener("keyup", (event) => {
         if (event.keyCode === 13) {
             event.preventDefault();
@@ -183,7 +184,11 @@ const setTimerInput = () => {
 
             // clear the text 
             timerInput.value = "";
-            // kick the timer          
+            // kick the timer   
+            
+            // play sound 
+            audio.pause();
+            audio.play();
             
             setTimerText(count);
             intervalHandle = setInterval(() => {
@@ -202,6 +207,9 @@ const setTimerInput = () => {
                     showNotification();
 
                     clearTimerText();
+
+                    // stop the sound 
+                    audio.pause();
                 }
             }, 1000);
 
