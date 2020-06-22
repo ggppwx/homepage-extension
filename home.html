@@ -8,6 +8,10 @@
       <source src="audio/rain.mp3" type="audio/mpeg"/>
       Your browser does not support the audio element.
     </audio>
+    <audio id="timerAlarm">      
+      <source src="audio/alarm.mp3" type="audio/mpeg"/>
+      Your browser does not support the audio element.
+    </audio>
 
     <div class="background container">
       <div class="top">
@@ -48,8 +52,8 @@
           <div class="side-col"></div>
         </div>
         <div id="greets" class="greets-text">Hello Friend</div>
-        <div style="margin-top: 20px;">
-          <img src="alarm.svg" class="marginauto">
+        <div style="margin-top: 20px; text-align: center;">
+          <img src="alarm.svg" class="marginauto">          
           <input id="timerInput" class="timer-input marginauto" type="text" >
         </div>
         
@@ -63,7 +67,15 @@
       </div>
 
       <div class="bottom">
-        <div id="quote" class="quote-text">NA</div>
+        <div class="side-col"></div>
+        <div class="center-col">
+          <div id="quote" class="quote-text">NA</div>
+        </div>
+        <div class="side-col">
+          <div class="sound-control text-on-right">        
+            <label for="soundCheckbox" class="sound-text">mute</label><input type="checkbox" id="soundCheckbox">
+          </div>
+        </div>        
       </div>
     </div>
     <script type="text/javascript" src="home.js"></script>

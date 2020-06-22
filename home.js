@@ -97,8 +97,20 @@ const setTodo = () => {
             let todos = document.getElementById("todos");
             todos.innerHTML = "";
             otherTasks.forEach(task => {
-                let listitem = document.createElement('li');
-                listitem.innerHTML = task.content;
+                let listitem = document.createElement('li');                
+                let span = document.createElement('span');
+                span.setAttribute('class', 'clickable');
+                span.setAttribute('data-taskid', task.id);
+                span.addEventListener('click', (event) => {                    
+                    let taskid = event.target.dataset.taskid;
+                    completeTask(taskid).then(data => {
+                        // refresh
+                        setTodo();
+                    });
+
+                });
+                listitem.appendChild(span);
+                span.innerHTML = task.content;
                 todos.appendChild(listitem);
             });
             
@@ -168,6 +180,7 @@ const clearTimerText = () => {
 const setTimerInput = () => {
     let timerInput = document.getElementById("timerInput");
     let audio = document.getElementById("timerAudio");
+    let alarm = document.getElementById("timerAlarm");
     timerInput.addEventListener("keyup", (event) => {
         if (event.keyCode === 13) {
             event.preventDefault();
@@ -210,6 +223,9 @@ const setTimerInput = () => {
 
                     // stop the sound 
                     audio.pause();
+
+                    // play alarm 
+                    alarm.play();
                 }
             }, 1000);
 
@@ -217,6 +233,22 @@ const setTimerInput = () => {
 
         }
     });
+};
+
+
+const setSoundControl = () => {
+    let audio = document.getElementById("timerAudio");
+    let soundControl = document.getElementById("soundCheckbox");
+    soundControl.addEventListener("change", (event) => {        
+        if (event.target.checked) {
+            // play             
+            audio.muted = true;
+        }   
+        else {            
+            audio.muted = false;
+        }
+    });
+
 };
 
 const showTimerView = () => {
@@ -273,6 +305,7 @@ document.addEventListener("DOMContentLoaded", function() {
     setTimerInput();
     focusText();
     setDaysCountdown();
+    setSoundControl();
 
 
     // display time 
