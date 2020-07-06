@@ -1,4 +1,4 @@
-var REMINDER_TIME_IN_MSEC = 1000 * 60 * 1;
+var REMINDER_TIME_IN_MSEC = 1000 * 60 * 30;
 
 
 var intervalHandle = null;
