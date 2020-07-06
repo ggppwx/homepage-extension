@@ -1,4 +1,7 @@
-var intervalHandle;
+var REMINDER_TIME_IN_MSEC = 1000 * 60 * 1;
+
+
+var intervalHandle = null;
 
 const headers = {
     'Content-Type': 'application/json',
@@ -14,7 +17,7 @@ const getTasks = async () => {
     return response.json();
 };
 
-const completeTask = async (taskid) => {    
+const completeTask = async (taskid) => {
     const url = `https://cors-anywhere.herokuapp.com/api.todoist.com/rest/v1/tasks/${taskid}/close`;
     let response = await fetch(url, {
         method: 'POST',
@@ -25,8 +28,8 @@ const completeTask = async (taskid) => {
 
 
 const getQuote = async () => {
-    const url = "https://quotes.rest/qod?language=en"; 
-    const headers = {    
+    const url = "https://quotes.rest/qod?language=en";
+    const headers = {
         'accept': 'application/json'
     };
     const response = await fetch(url, {
@@ -82,8 +85,8 @@ const sortTasksByPriroty = (tasks) => {
 const setTodo = () => {
     console.log("get tasks ... ");
     getTasks()
-    .then(tasks => {        
-        // find the max priority 
+    .then(tasks => {
+        // find the max priority
         sortedTasks = sortTasksByPriroty(tasks);
         console.log(sortedTasks);
         focusTask = sortedTasks.find(x => true);
@@ -97,11 +100,11 @@ const setTodo = () => {
             let todos = document.getElementById("todos");
             todos.innerHTML = "";
             otherTasks.forEach(task => {
-                let listitem = document.createElement('li');                
+                let listitem = document.createElement('li');
                 let span = document.createElement('span');
                 span.setAttribute('class', 'clickable');
                 span.setAttribute('data-taskid', task.id);
-                span.addEventListener('click', (event) => {                    
+                span.addEventListener('click', (event) => {
                     let taskid = event.target.dataset.taskid;
                     completeTask(taskid).then(data => {
                         // refresh
@@ -113,8 +116,8 @@ const setTodo = () => {
                 span.innerHTML = task.content;
                 todos.appendChild(listitem);
             });
-            
-            
+
+
         }
 
     })
@@ -124,17 +127,17 @@ const setTodo = () => {
 const secondsToTimeStr = (seconds) => {
     let date = new Date(0);
     date.setSeconds(seconds); // specify value for SECONDS here
-    let timeString = date.toISOString().substr(11, 8);    
+    let timeString = date.toISOString().substr(11, 8);
     return timeString;
 };
 
 
 
 const parseTime = (timeStr) => {
-    // 3h2m -> 3 hour 2 m  
-    // read the numnber, then read the 
+    // 3h2m -> 3 hour 2 m
+    // read the numnber, then read the
     let totalSeconds = 0;
-    let matched = timeStr.match(/\d+\s*[a-z]+/g);    
+    let matched = timeStr.match(/\d+\s*[a-z]+/g);
     matched.forEach(item => {
         matchedItem = item.match(/(\d+)\s*([a-z]+)/);
         console.log(matchedItem);
@@ -149,20 +152,22 @@ const parseTime = (timeStr) => {
     });
     console.log(totalSeconds);
     return totalSeconds;
-    
+
 };
 
-const showNotification = () => {
+const showNotification = (title = "Time is up", message = "Ah oh, time is up") => {
+
     chrome.tabs.getCurrent((tab) => {
         chrome.runtime.sendMessage("", {
             type: "notification",
             tabId: tab.id,
             opt: {
                 type: "basic",
-                title: "Time is up",
-                message: "Ah oh, time is up",
-                iconUrl: "/notification.jpg"                
-            }        
+                title: title,
+                message: message,
+                iconUrl: "/notification.jpg",
+                requireInteraction: true
+            }
         });
     });
 };
@@ -186,50 +191,52 @@ const setTimerInput = () => {
             event.preventDefault();
             console.log(timerInput.value)
             let count = parseTime(timerInput.value);
-            
-            // show timer 
+
+            // show timer
             showTimerView();
 
             // clear existing timer
             if (intervalHandle !== null) {
                 clearInterval(intervalHandle);
+                intervalHandle = null;
             }
 
-            // clear the text 
+            // clear the text
             timerInput.value = "";
-            // kick the timer   
-            
-            // play sound 
+            // kick the timer
+
+            // play sound
             audio.pause();
             audio.play();
-            
+
             setTimerText(count);
             intervalHandle = setInterval(() => {
                 count --;
                 console.log(count);
-                
+
                 setTimerText(count);
-                
+
                 if (count == 0) {
                     //alert('ah oh');
-                    // back to clock 
+                    // back to clock
                     showClockView();
 
                     clearInterval(intervalHandle);
-                    
+                    intervalHandle = null;
+
                     showNotification();
 
                     clearTimerText();
 
-                    // stop the sound 
+                    // stop the sound
                     audio.pause();
 
-                    // play alarm 
+                    // play alarm
                     alarm.play();
                 }
             }, 1000);
 
-            
+
 
         }
     });
@@ -239,12 +246,12 @@ const setTimerInput = () => {
 const setSoundControl = () => {
     let audio = document.getElementById("timerAudio");
     let soundControl = document.getElementById("soundCheckbox");
-    soundControl.addEventListener("change", (event) => {        
+    soundControl.addEventListener("change", (event) => {
         if (event.target.checked) {
-            // play             
+            // play
             audio.muted = true;
-        }   
-        else {            
+        }
+        else {
             audio.muted = false;
         }
     });
@@ -265,7 +272,7 @@ const showClockView = () => {
 
 const setTodoClick = () => {
     let todo = document.getElementById("todo");
-    todo.addEventListener("click", (event) => {        
+    todo.addEventListener("click", (event) => {
         console.log(todo.dataset);
         completeTask(todo.dataset.taskid).then(data => {
             // refresh
@@ -297,7 +304,21 @@ const focusText = () => {
     document.getElementById("timerInput").focus();
 };
 
-document.addEventListener("DOMContentLoaded", function() {    
+
+const setReminder = () => {
+    var audio = document.getElementById("reminder");
+    // remind me in a period of time
+    setInterval(() => {
+        // get time from
+        if (!intervalHandle) {
+            showNotification("Reminder", "What are you doing right now ");
+            audio.play();
+        }
+    }, REMINDER_TIME_IN_MSEC);
+};
+
+
+document.addEventListener("DOMContentLoaded", function() {
     setBackground();
     setQuote();
     setTodo();
@@ -306,9 +327,9 @@ document.addEventListener("DOMContentLoaded", function() {
     focusText();
     setDaysCountdown();
     setSoundControl();
+    setReminder();
 
-
-    // display time 
+    // display time
     setTime();
     setInterval(() => {
         // get time from
