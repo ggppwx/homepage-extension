@@ -312,7 +312,12 @@ const setReminder = () => {
         // get time from
         if (!intervalHandle) {
             showNotification("Reminder", "What are you doing right now ");
-            audio.play();
+            //audio.play();
+            let time = new Date();
+            let hour = time.getHours();
+            let min = time.getMinutes();
+            var msg = new SpeechSynthesisUtterance(`Current time is ${hour} ${min}`);
+            window.speechSynthesis.speak(msg);
         }
     }, REMINDER_TIME_IN_MSEC);
 };
